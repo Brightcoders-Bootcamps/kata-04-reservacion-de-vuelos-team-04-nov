@@ -1,24 +1,40 @@
-import React from 'react';
-// import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
-import 'react-native-gesture-handler';
-import SingUp from './src/screens/SingUp';
-import Home from './src/screens/Home';
-import LogIn from './src/screens/LogIn';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, SafeAreaView, StatusBar, Text, View} from 'react-native';
+import Auth from './src/components/Auth';
+import firebase from './src/utils/firebase';
+import 'firebase/auth';
+export default function App() {
+  const [user, setUser] = useState(undefined);
 
-const Stack = createStackNavigator();
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((response) => {
+      setUser(response);
+    });
+  }, []);
 
-const App = () => {
+  if (user === undefined) {
+    return null;
+  }
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name ="SingUp" component ={SingUp} options= {{headerShown: false}} />
-        <Stack.Screen name ="Home" component ={Home}   />
-        <Stack.Screen name ="LogIn" component ={LogIn}   />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={styles.background}>
+        {user ? (
+          <View>
+            <Text>Logeado</Text>
+            <Text onPress={() => firebase.auth().signOut()}>Cerrar Sesión</Text>
+          </View>
+        ) : (
+          <Auth />
+        )}
+      </SafeAreaView>
+    </>
   );
-};
+}
 
-export default App;
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: '#fff',
+    height: '100%',
+  },
+});
