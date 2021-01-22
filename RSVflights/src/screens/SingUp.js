@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { 
-    Text, 
     View, 
-    TouchableOpacity, 
     StyleSheet, 
     SafeAreaView, 
-    Dimensions, 
-    Image
-} from 'react-native'
+    Dimensions} from 'react-native'
 import CheckBoxs from '../components/CheckBoxs'
 import FormInput from '../components/Form_SignUp'
 import Buttons from '../components/Buttons'
