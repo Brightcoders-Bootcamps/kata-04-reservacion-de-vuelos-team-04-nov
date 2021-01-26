@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "435018098487",
+    "project_id": "rsvflights",
+    "storage_bucket": "rsvflights.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435018098487:android:6c9183f0bf4583336a1cb2",
+        "android_client_info": {
+          "package_name": "com.rsvflights"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435018098487-bf5igsuohvut5737tj56ap2so0bvkkvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rsvflights",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "435018098487-nbc7rl5dc6934tsjd61a0dipoi5ch7hn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzkDZYF3effc3ARAAlmrqG9-ZpT4RQjEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435018098487-nbc7rl5dc6934tsjd61a0dipoi5ch7hn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
