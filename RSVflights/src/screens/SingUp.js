@@ -11,6 +11,7 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 import colors from '../utils/colors';
 import firebase from '../utils/firebase';
+import { Icon } from 'react-native-elements';
 
 export default function SingUp(props) {
   const {changeForm, navigation} = props;
@@ -71,6 +72,16 @@ export default function SingUp(props) {
         />
         <Text style={styles.label}>Password *</Text>
         <View style={styles.containerInputIcon}>
+                <TextInput 
+                style={styles.inputIcon} 
+                secureTextEntry={true}
+                onChange={(e) =>
+                  setFormData({...formData, password: e.nativeEvent.text})
+                }
+            />
+                <Icon name='eye' type='feather' color= {colors.gray} size={17}/>
+            </View>
+        {/* <View style={styles.containerInputIcon}>
           <TextInput
             style={styles.inputIcon}
             secureTextEntry={true}
@@ -78,7 +89,7 @@ export default function SingUp(props) {
               setFormData({...formData, password: e.nativeEvent.text})
             }
           />
-        </View>
+        </View> */}
         <Text style={styles.small}>
           Use 8 or more characters with a mix of letters, numbers and symbols.
         </Text>

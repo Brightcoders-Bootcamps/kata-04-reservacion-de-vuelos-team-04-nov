@@ -6,7 +6,7 @@ import 'firebase/auth';
 import colors from '../utils/colors';
 
 
-export default function Home(props) {
+export default function MyFlights(props) {
   const {navigation} = props;
   const [user, setUser] = useState(undefined);
 

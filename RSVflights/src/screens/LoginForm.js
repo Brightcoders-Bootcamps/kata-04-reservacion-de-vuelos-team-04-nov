@@ -11,6 +11,7 @@ import {
 import firebase from '../utils/firebase';
 import colors from '../utils/colors';
 
+
 export default function LoginForm(props) {
   const {changeForm, navigation} = props;
   const [formData, setFormData] = useState(defaultValue());
