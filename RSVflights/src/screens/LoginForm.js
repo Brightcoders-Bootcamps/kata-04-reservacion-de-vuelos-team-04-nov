@@ -11,12 +11,11 @@ import {
 import firebase from '../utils/firebase';
 import colors from '../utils/colors';
 
-
 export default function LoginForm(props) {
   const {changeForm, navigation} = props;
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
-  
+
   const login = () => {
     let errors = {};
     if (!formData.email || !formData.password) {
@@ -82,7 +81,11 @@ export default function LoginForm(props) {
               <Text style={styles.textWhite}>Sign In</Text>
             </TouchableOpacity>
             <Text style={styles.textCheckbox}>or</Text>
-            <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('SingUp')}}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('SingUp');
+              }}>
               <View style={styles.containerTextWhite}>
                 <Text style={styles.textWhite}>Sign Up</Text>
               </View>

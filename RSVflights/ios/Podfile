@@ -8,9 +8,7 @@ target 'RSVflights' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'RSVflightsTests' do
     inherit! :complete
