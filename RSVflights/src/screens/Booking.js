@@ -42,7 +42,7 @@ export default function Booking(props) {
                 placeholder= {{label: "Select location", value: null }}
                 style={{inputAndroid: {color: colors.black} }}
                 items={[
-                  {label: 'Belgrade, Serbia', value: 'BEG'},
+                  {label: 'Belgrade, Serbia', value: 'BEG Serbia'},
                   {label: 'AMS, Netherlands', value: 'AMS'}, 
                   {label: 'Berlin, Germany', value: 'BER'},
                 ]}
@@ -53,7 +53,7 @@ export default function Booking(props) {
             <TouchableOpacity
               style={[isSelectedPicker ? styles.buttonBlue : styles.button]}
               onPress={() => {
-                navigation.navigate('Booking_fly');
+                navigation.navigate('Booking_fly', {locationNow: isSelectedPicker});
               }}>
               <Text style={styles.textWhite}>Next</Text>
             </TouchableOpacity>

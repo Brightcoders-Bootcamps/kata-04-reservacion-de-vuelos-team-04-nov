@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import firebase from '../utils/firebase';
 import colors from '../utils/colors';
+import {useNavigation} from '@react-navigation/native'
 
 export default function LoginForm(props) {
-  const {changeForm, navigation} = props;
+  const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
 

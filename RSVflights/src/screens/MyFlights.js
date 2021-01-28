@@ -4,6 +4,7 @@ import Auth from '../components/Auth';
 import firebase from '../utils/firebase';
 import 'firebase/auth';
 import colors from '../utils/colors';
+// import { useNavigation } from '@react-navigation/native';
 
 
 export default function MyFlights(props) {

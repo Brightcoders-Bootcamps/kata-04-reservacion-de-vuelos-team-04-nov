@@ -12,9 +12,11 @@ import CheckBox from '@react-native-community/checkbox';
 import colors from '../utils/colors';
 import firebase from '../utils/firebase';
 import { Icon } from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native'
 
 export default function SingUp(props) {
-  const {changeForm, navigation} = props;
+  const {changeForm} = props;
+  const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
   const [isSelected, setSelected] = useState(false);

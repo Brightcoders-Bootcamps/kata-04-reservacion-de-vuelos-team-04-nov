@@ -12,8 +12,9 @@ import colors from '../utils/colors';
 import {Icon} from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function Booking(props) {
-  const {navigation, router} = props;
+
+export default function Booking_fly({navigation, route}) {
+  const {locationNow} = route.params;
   const [isSelectedPicker,setIsSelectedPicker] = useState("");
 
   return (
@@ -35,7 +36,7 @@ export default function Booking(props) {
             </TouchableOpacity>
             <View style={styles.containerReservation}>
               <View style={styles.containerNow}>
-                <Text style={styles.textLocation}>BEG</Text>
+                <Text style={styles.textLocation}>{locationNow}</Text>
                 <Text style={styles.textCountry}>Serbia</Text>
               </View>
               <View style={styles.containerPlane}>
