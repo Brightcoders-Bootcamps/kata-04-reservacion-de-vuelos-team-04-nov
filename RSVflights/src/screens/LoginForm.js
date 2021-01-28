@@ -1,146 +1,121 @@
 import React, {useState} from 'react';
 import {
-  View,
   StyleSheet,
+  View,
+  TouchableOpacity,
   Dimensions,
   Text,
   TextInput,
-  TouchableOpacity,
   Image,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
-import colors from '../utils/colors';
 import firebase from '../utils/firebase';
+import colors from '../utils/colors';
+import {useNavigation} from '@react-navigation/native'
 
-export default function SingUp(props) {
-  const {changeForm} = props;
+export default function LoginForm(props) {
+  const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
-  const [isSelected, setSelected] = useState(false);
-  const [isSelected2, setSelected2] = useState(false);
-  const register = () => {
+
+  const login = () => {
     let errors = {};
-    if (
-      !formData.email ||
-      !formData.password ||
-      !formData.name ||
-      !isSelected ||
-      !isSelected2
-    ) {
+    if (!formData.email || !formData.password) {
       if (!formData.email) {
         errors.email = true;
       }
       if (!formData.password) {
         errors.password = true;
       }
-      if (!formData.name) {
-        errors.name = true;
-      }
     } else if (formData.password.length < 8) {
       errors.password = true;
     } else {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(formData.email, formData.password)
+        .signInWithEmailAndPassword(formData.email, formData.password)
         .then(() => {
-          console.log('cuenta creada');
+          console.log('OK');
+          navigation.navigate('Home');
         })
         .catch(() => {
-          setFormError({email: true, password: true, name: true});
+          setFormError({
+            email: true,
+            password: true,
+          });
         });
     }
     setFormError(errors);
   };
+  const onChange = (e, type) => {
+    setFormData({...formData, [type]: e.nativeEvent.text});
+  };
   return (
-    <View style={styles.containerPrincipal}>
-      <View style={styles.first}>
-        <Text style={styles.title}>Sing Up</Text>
-        <Text style={styles.label}>First Name</Text>
-        <TextInput
-          style={styles.input}
-          onChange={(e) => setFormData({...formData, name: e.nativeEvent.text})}
-        />
-        <Text style={styles.label}>Email *</Text>
-        <TextInput
-          style={styles.input}
-          onChange={(e) =>
-            setFormData({...formData, email: e.nativeEvent.text})
-          }
-        />
-        <Text style={styles.label}>Password *</Text>
-        <View style={styles.containerInputIcon}>
+    <>
+      <View style={styles.containerPrincipal}>
+        <View style={styles.logoTipo}>
+          <Image
+            style={styles.logo}
+            source={require('../assets/images/logoF.png')}
+          />
+        </View>
+        <View style={styles.first}>
+          <Text style={styles.title}>Sing In</Text>
+          <Text style={styles.label}>Email *</Text>
           <TextInput
-            style={styles.inputIcon}
-            secureTextEntry={true}
-            onChange={(e) =>
-              setFormData({...formData, password: e.nativeEvent.text})
-            }
+            style={styles.input}
+            onChange={(e) => onChange(e, 'email')}
           />
-        </View>
-        <Text style={styles.small}>
-          Use 8 or more characters with a mix of letters, numbers and symbols.
-        </Text>
-      </View>
-      <View>
-        <View style={styles.containerCheckbox}>
-          <CheckBox
-            tintColors={{true: colors.blue, false: colors.black}}
-            value={isSelected}
-            onValueChange={(newValue) => setSelected(newValue)}
-          />
-          <Text style={styles.textCheckbox}>
-            I agree to the <Text style={styles.underline}>Terms</Text> and{' '}
-            <Text style={styles.underline}>Privacy Policy</Text>
-            <Text style={styles.textred}> *</Text>
+          <Text style={styles.label}>Password *</Text>
+          <View style={styles.containerInputIcon}>
+            <TextInput
+              style={styles.inputIcon}
+              secureTextEntry={true}
+              onChange={(p) => onChange(p, 'password')}
+            />
+          </View>
+          <Text style={styles.small}>
+            Use 8 or more characters with a mix of letters, numbers and symbols.
           </Text>
         </View>
-        <View style={styles.containerCheckbox}>
-          <CheckBox
-            tintColors={{true: colors.blue, false: colors.black}}
-            value={isSelected2}
-            onValueChange={(newValue) => setSelected2(newValue)}
-          />
-          <Text style={styles.textCheckbox}>
-            Subscribe for select product updates.
-          </Text>
-        </View>
-      </View>
-      <View style={styles.buttons}>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={register}>
-            <Text style={styles.textWhite}>Sign Up</Text>
-          </TouchableOpacity>
-          <Text style={styles.textCheckbox}>or</Text>
-          <TouchableOpacity style={styles.button2}>
-            <View style={styles.containerImage}>
-              <Image
-                source={require('../assets/images/google.png')}
-                style={styles.image}
-              />
-            </View>
-            <View style={styles.containerTextWhite}>
-              <Text style={styles.textWhite}>Sign Up with Google</Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.containerLogin}>
-            <Text style={styles.textCheckbox}>Already have an account?</Text>
-            <TouchableOpacity onPress={changeForm}>
-              <Text style={styles.textLogin}>Log In</Text>
+        <View style={styles.buttons}>
+          <View style={styles.container}>
+            <TouchableOpacity style={styles.button} onPress={login}>
+              <Text style={styles.textWhite}>Sign In</Text>
+            </TouchableOpacity>
+            <Text style={styles.textCheckbox}>or</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('SingUp');
+              }}>
+              <View style={styles.containerTextWhite}>
+                <Text style={styles.textWhite}>Sign Up</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-    </View>
+    </>
   );
 }
 function defaultValue() {
   return {
     email: '',
     password: '',
-    repeatPassword: '',
   };
 }
 const styles = StyleSheet.create({
+  logoTipo: {
+    width: '100%',
+    height: 120,
+    alignSelf: 'center',
+    position: 'absolute',
+  },
+  logo: {
+    width: '20%',
+    height: 60,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
   containerPrincipal: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -148,7 +123,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     paddingHorizontal: '2%',
-    paddingVertical: '4%',
+    paddingVertical: '20%',
+    //  marginTop: '15%',
   },
   buttons: {
     width: '100%',
@@ -165,6 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 20,
     fontWeight: 'bold',
+    alignSelf: 'center',
   },
   input: {
     borderColor: colors.gray,
@@ -235,7 +212,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: 45,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.blue2,
     borderRadius: 8,
     marginTop: 20,
     marginBottom: 20,

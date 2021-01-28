@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import SingUp from './SingUp';
-import LoginForm from './LoginForm';
+import SingUp from '../screens/SingUp';
+import LoginForm from '../screens/LoginForm';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
