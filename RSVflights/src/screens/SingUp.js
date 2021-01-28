@@ -19,8 +19,8 @@ export default function SingUp(props) {
   const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
-  const [isSelected, setSelected] = useState(false);
-  const [isSelected2, setSelected2] = useState(false);
+  const [isSelectedPolicy, setSelectedPolicy] = useState(false);
+  const [isSubscribe, setSubscribe] = useState(false);
 
   const register = () => {
     let errors = {}; 
@@ -28,8 +28,8 @@ export default function SingUp(props) {
       !formData.email ||
       !formData.password ||
       !formData.name ||
-      !isSelected ||
-      !isSelected2
+      !isSelectedPolicy ||
+      !isSubscribe
     ) {
       if (!formData.email) {
         errors.email = true;
@@ -83,15 +83,6 @@ export default function SingUp(props) {
             />
                 <Icon name='eye' type='feather' color= {colors.gray} size={17}/>
             </View>
-        {/* <View style={styles.containerInputIcon}>
-          <TextInput
-            style={styles.inputIcon}
-            secureTextEntry={true}
-            onChange={(e) =>
-              setFormData({...formData, password: e.nativeEvent.text})
-            }
-          />
-        </View> */}
         <Text style={styles.small}>
           Use 8 or more characters with a mix of letters, numbers and symbols.
         </Text>
@@ -100,8 +91,8 @@ export default function SingUp(props) {
         <View style={styles.containerCheckbox}>
           <CheckBox
             tintColors={{true: colors.blue, false: colors.black}}
-            value={isSelected}
-            onValueChange={(newValue) => setSelected(newValue)}
+            value={isSelectedPolicy}
+            onValueChange={(newValue) => setSelectedPolicy(newValue)}
           />
           <Text style={styles.textCheckbox}>
             I agree to the <Text style={styles.underline}>Terms</Text> and{' '}
@@ -112,8 +103,8 @@ export default function SingUp(props) {
         <View style={styles.containerCheckbox}>
           <CheckBox
             tintColors={{true: colors.blue, false: colors.black}}
-            value={isSelected2}
-            onValueChange={(newValue) => setSelected2(newValue)}
+            value={isSubscribe}
+            onValueChange={(newValue) => setSubscribe(newValue)}
           />
           <Text style={styles.textCheckbox}>
             Subscribe for select product updates.
