@@ -4,6 +4,7 @@ import Auth from '../components/Auth';
 import firebase from '../utils/firebase';
 import 'firebase/auth';
 import colors from '../utils/colors';
+import {Icon} from 'react-native-elements';
 // import { useNavigation } from '@react-navigation/native';
 
 
@@ -26,9 +27,11 @@ export default function MyFlights(props) {
       <SafeAreaView style={styles.background}>
         {user ? (
           <View>
-            <Text style={styles.title}>Sing Up</Text> 
-            <Text>Logeado</Text>
-            <Text onPress={() => firebase.auth().signOut()}>Cerrar Sesión</Text>
+            <Text style={styles.title}>My Flights</Text> 
+            <Icon 
+              name="log-out-outline"
+              type="ionicon" 
+              onPress={() => firebase.auth().signOut()} />
             <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Booking')}}>
               <View >
                 <Text style={styles.textbutton}>+</Text>
