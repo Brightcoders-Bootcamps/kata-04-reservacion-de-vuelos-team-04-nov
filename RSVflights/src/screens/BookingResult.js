@@ -40,7 +40,7 @@ const Result = ({navigation, route}) => {
           <Text style={styles.date}>{passenger} passengers</Text>
         </View>
         <Text style={styles.received}>Your request was received.</Text>
-        <View style={styles.passenger}>
+        <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate}>
@@ -55,13 +55,6 @@ const Result = ({navigation, route}) => {
 export default Result;
 
 const styles = StyleSheet.create({
-  titulo: {
-    fontWeight: 'bold',
-    fontSize: 38,
-    backgroundColor: 'white',
-    marginBottom: 10,
-    marginLeft: 20,
-  },
   container: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -73,47 +66,28 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'grey',
-    padding: 10,
-    width: 360,
-    height: 40,
-    justifyContent: 'flex-end',
-    marginLeft: 20,
-    marginTop: 100,
-    marginBottom: 100,
-    borderRadius: 10,
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 1,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 10,
+    backgroundColor: colors.blue,
+    width: '95%',
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
   },
   next: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 15,
   },
-  number: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-  calender: {
-    width: 400,
-  },
   textLocation: {
     fontSize: 25,
     fontWeight: 'bold',
     color: colors.black,
-    marginLeft: 20,
   },
   textCountry: {
     fontSize: 12,
     color: colors.gray,
     marginVertical: 10,
-    marginLeft: 20,
   },
   containerReservation: {
     flexDirection: 'row',
@@ -149,24 +123,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
-    marginRight: 500,
-    marginTop: 15,
+    paddingHorizontal: 10,
+    marginTop: 10,
     marginBottom: 25,
     width: '100%',
   },
   date: {
     fontWeight: 'bold',
-    fontSize: 17,
   },
   received: {
     fontWeight: 'bold',
     fontSize: 38,
     textAlign: 'left',
-    marginLeft: 20,
-    paddingEnd: 50,
+    marginLeft: 15,
+    // paddingEnd: 50,
     flex: 1,
     width: '80%',
     marginTop: 10,
-}
+  },
+  containerButton: {
+    height: '35%',
+    paddingHorizontal: 10,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+  },
 });

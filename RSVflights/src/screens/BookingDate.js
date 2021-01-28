@@ -31,40 +31,41 @@ const Calender = ({navigation, route}) => {
     <>
       <SafeAreaView>
         <View style={styles.container}>
-          <TouchableOpacity
-            onPress={() => {
+          <View style={styles.containerIcons}>
+            <TouchableOpacity
+              onPress={() => {
               navigation.navigate('Booking_fly');
             }}>
-            <Icon
-              name="chevron-left"
-              type="feather"
-              color={colors.blue}
-              size={35}
-              border
-            />
-          </TouchableOpacity>
-          <View style={styles.containerReservation}>
-            <View style={styles.containerNow}>
-              <Text style={styles.textLocation}>BEG</Text>
-              <Text style={styles.textCountry}>Serbia</Text>
-            </View>
-            <View style={styles.containerPlane}>
               <Icon
-                name="airplane"
-                type="ionicon"
+                name="chevron-left"
+                type="feather"
                 color={colors.blue}
-                size={30}
+                size={35}
+                border
               />
+            </TouchableOpacity>
+            <View style={styles.containerReservation}>
+              <View style={styles.containerNow}>
+                <Text style={styles.textLocation}>BEG</Text>
+                <Text style={styles.textCountry}>Serbia</Text>
+              </View>
+              <View style={styles.containerPlane}>
+                <Icon
+                  name="airplane"
+                  type="ionicon"
+                  color={colors.blue}
+                  size={30}
+                />
+              </View>
+              <View style={styles.containerFly}>
+                <Text style={styles.textLocation}>AMS</Text>
+                <Text style={styles.textCountry}>Netherlands</Text>
+              </View>
             </View>
-            <View style={styles.containerFly}>
-              <Text style={styles.textLocation}>AMS</Text>
-              <Text style={styles.textCountry}>Netherlands</Text>
-            </View>
-          </View>
+          </View>  
           <View style={styles.date}>
             <Text style={styles.titulo}>Select date </Text>
             <Calendar
-              style={styles.calender}
               markedDates={markedDates}
               current={selectedDate}
               pastScrollRange={24}
@@ -76,17 +77,16 @@ const Calender = ({navigation, route}) => {
                 console.log(day);
               }}
             />
+          </View>
+          <View style={styles.containerButton}>
             <TouchableOpacity
-              style={styles.button}
+              style={[selectedDate === ('2021-01-31') ? styles.button : styles.button2]}
               onPress={() =>
                 navigation.navigate('Passenger', {
                   date: Moment(selectedDate).format('MMMM D, YYYY'),
                 })
               }>
               <Text style={styles.next}>Next</Text>
-              <View
-                style={[selectedDate.isTrue ? styles.button : styles.button2]}
-              />
             </TouchableOpacity>
           </View>
         </View>
@@ -114,25 +114,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: '2%',
     paddingVertical: '10%',
   },
+  containerIcons: {
+    height: '25%',
+    paddingHorizontal: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  containerButton: {
+    height: '35%',
+    paddingHorizontal: 10,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+  },
   button: {
     alignItems: 'center',
-    backgroundColor: 'grey',
-    padding: 10,
-    width: 360,
-    height: 40,
-    justifyContent: 'flex-end',
-    marginLeft: 20,
-    marginTop: 100,
-    marginBottom: 100,
-    borderRadius: 10,
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 1,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 10,
+    backgroundColor: colors.gray,
+    width: '95%',
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
   },
   next: {
     color: 'white',
@@ -140,26 +143,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   number: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   calender: {
-    width: 400,
+    width: '100%',
   },
   date: {
-    marginTop: 50,
+    height: '40%',
+    width:'100%',
   },
   textLocation: {
     fontSize: 25,
     fontWeight: 'bold',
     color: colors.black,
-    marginLeft: 20,
   },
   textCountry: {
     fontSize: 12,
     color: colors.gray,
-    marginVertical: 10,
-    marginLeft: 20,
+    marginVertical: 10
   },
   containerReservation: {
     flexDirection: 'row',
@@ -188,6 +190,13 @@ const styles = StyleSheet.create({
     // justifyContent:'center'
   },
   button2: {
-    backgroundColor: '#5b6df8',
+    alignItems: 'center',
+    backgroundColor: colors.blue,
+    width: '95%',
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
   },
 });

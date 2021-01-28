@@ -17,37 +17,39 @@ const Passenger = ({navigation, route}) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
+        <View style={styles.containerIcons}>
+          <TouchableOpacity
+            onPress={() => {
             navigation.navigate('Date');
-          }}>
-          <Icon
-            name="chevron-left"
-            type="feather"
-            color={colors.blue}
-            size={35}
-            border
-          />
-        </TouchableOpacity>
-        <View style={styles.containerReservation}>
-          <View style={styles.containerNow}>
-            <Text style={styles.textLocation}>BEG</Text>
-            <Text style={styles.textCountry}>Serbia</Text>
-          </View>
-          <View style={styles.containerPlane}>
+            }}>
             <Icon
-              name="airplane"
-              type="ionicon"
+              name="chevron-left"
+              type="feather"
               color={colors.blue}
-              size={30}
+              size={35}
+              border
             />
+          </TouchableOpacity>
+          <View style={styles.containerReservation}>
+            <View style={styles.containerNow}>
+              <Text style={styles.textLocation}>BEG</Text>
+              <Text style={styles.textCountry}>Serbia</Text>
+            </View>
+            <View style={styles.containerPlane}>
+              <Icon
+                name="airplane"
+                type="ionicon"
+                color={colors.blue}
+                size={30}
+              />
+            </View>
+            <View style={styles.containerFly}>
+              <Text style={styles.textLocation}>AMS</Text>
+              <Text style={styles.textCountry}>Netherlands</Text>
+            </View>
           </View>
-          <View style={styles.containerFly}>
-            <Text style={styles.textLocation}>AMS</Text>
-            <Text style={styles.textCountry}>Netherlands</Text>
-          </View>
+          <Text style={styles.date}>{date}</Text> 
         </View>
-        <Text style={styles.date}>{date}</Text>
         <View style={styles.passenger}>
           <Text style={styles.titulo}>How many passengers?</Text>
           <View style={styles.count}>
@@ -69,8 +71,10 @@ const Passenger = ({navigation, route}) => {
               onPress={() => setCount(count + 1)}
             />
           </View>
+        </View>
+        <View style={styles.containerButton}>
           <TouchableOpacity
-            style={styles.button}
+            style={[count ? styles.buttonBlue : styles.button]}
             onPress={() =>
               navigation.navigate('Result', {passenger: count, date: date})
             }>
@@ -90,7 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 38,
     backgroundColor: 'white',
     marginBottom: 10,
-    marginTop: 30,
     marginLeft: 20,
   },
   container: {
@@ -101,26 +104,41 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     paddingHorizontal: '2%',
     paddingVertical: '10%',
+  
+  },
+  containerIcons: {
+    height: '25%',
+    paddingHorizontal: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width:'100%',
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#5b6df8',
-    padding: 10,
-    width: 360,
-    height: 40,
+    backgroundColor: colors.gray,
+    width: '95%',
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
+  },
+  buttonBlue: {
+    alignItems: 'center',
+    backgroundColor: colors.blue,
+    width: '95%',
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 8,
+  },
+  containerButton: {
+    height: '35%',
+    paddingHorizontal: 10,
     justifyContent: 'flex-end',
-    marginLeft: 20,
-    marginTop: 50,
-    marginBottom: 10,
-    borderRadius: 10,
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 1,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 10,
+    alignItems: 'center',
+    width: '100%',
   },
   next: {
     color: 'white',
@@ -130,40 +148,36 @@ const styles = StyleSheet.create({
   count: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 350,
+    height: 250,
     alignItems: 'center',
     paddingHorizontal: 10,
     marginTop: 10,
-    marginLeft: 80,
-    marginRight: 50,
+    marginLeft: '20%',
+    marginRight: '20%',
+  },
+  date: {
+    fontWeight:'bold',
+    paddingHorizontal: 10,
+    marginTop:10
   },
   passenger: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
+    height: '40%',
+    width:'100%',
   },
   number: {
     fontSize: 40,
     fontWeight: 'bold',
   },
-  calender: {
-    width: 400,
-  },
-  date: {
-    marginTop: 10,
-    fontWeight: 'bold',
-    fontSize: 17,
-    marginLeft: 20,
-  },
   textLocation: {
     fontSize: 25,
     fontWeight: 'bold',
     color: colors.black,
-    marginLeft: 20,
   },
   textCountry: {
     fontSize: 12,
     color: colors.gray,
     marginVertical: 10,
-    marginLeft: 20,
   },
   containerReservation: {
     flexDirection: 'row',

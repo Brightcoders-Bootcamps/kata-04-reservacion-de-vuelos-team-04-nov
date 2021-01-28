@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   StyleSheet,
@@ -14,6 +14,8 @@ import RNPickerSelect from 'react-native-picker-select';
 
 export default function Booking(props) {
   const {navigation, router} = props;
+  const [isSelectedPicker,setIsSelectedPicker] = useState("");
+
   return (
     <>
       <SafeAreaView>
@@ -44,27 +46,28 @@ export default function Booking(props) {
                   size={30}
                 />
               </View>
-              <View style={styles.containerFly}>
-                <Text style={styles.textLocation}>AMS</Text>
-                <Text style={styles.textCountry}>Netherlands</Text>
-              </View>
+              <View style={styles.containerFly}></View>
             </View>
           </View>
           <View style={styles.containerQuestion}>
             <Text style={styles.question}>Where will you be flying to?</Text>
-            <RNPickerSelect
-              onValueChange={(value) => console.log(value)}
-              // placeholder={("Select location")}
-              items={[
-                {label: 'BEG', value: 'BEG'},
-                {label: 'AMS', value: 'AMS'},
-                {label: 'MEX', value: 'MEX'},
-              ]}
-            />
+            <View style= {[isSelectedPicker ? styles.containerPickerBlue: styles.containerPicker]}>
+              <RNPickerSelect
+                useNativeAndroidPickerStyle={false}
+                onValueChange={(isSelectedPicker) => setIsSelectedPicker(isSelectedPicker)}
+                placeholder={{label: "Select location", value: null }}
+                style={{inputAndroid: {color: colors.black} }}
+                items={[
+                  {label: 'Belgrade, Serbia', value: 'BEG'},
+                  {label: 'AMS, Netherlands', value: 'AMS'}, 
+                  {label: 'Berlin, Germany', value: 'BER'},
+                ]}
+              />
+            </View> 
           </View>
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={styles.button}
+              style={[isSelectedPicker ? styles.buttonBlue : styles.button]}
               onPress={() => {
                 navigation.navigate('Date');
               }}>
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containerIcon: {
-    height: '30%',
+    height: '25%',
     paddingHorizontal: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   containerButton: {
-    height: '30%',
+    height: '35%',
     paddingHorizontal: 10,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -124,6 +127,17 @@ const styles = StyleSheet.create({
     width: '95%',
     height: 45,
     backgroundColor: colors.gray,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+  },
+  buttonBlue: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '95%',
+    height: 45,
+    backgroundColor: colors.blue,
     borderRadius: 8,
     marginTop: 20,
     marginBottom: 20,
@@ -150,15 +164,19 @@ const styles = StyleSheet.create({
   },
   containerFly: {
     width: '40%',
-    borderBottomColor: colors.gray,
-    borderBottomWidth: 1,
     alignItems: 'flex-end',
   },
   containerPlane: {
-    borderBottomColor: colors.gray,
-    borderBottomWidth: 1,
     height: '100%',
     width: '20%',
-    // justifyContent:'center'
   },
+  containerPicker:{
+    borderBottomWidth:2,
+    borderBottomColor: colors.gray
+  },
+  containerPickerBlue:{
+    borderBottomWidth:2,
+    borderBottomColor: colors.blue
+  }
+
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   StyleSheet,
@@ -13,6 +13,8 @@ import RNPickerSelect from 'react-native-picker-select';
 
 export default function Booking(props) {
   const {navigation} = props;
+  const [isSelectedPicker,setIsSelectedPicker] = useState("");
+
   return (
     <>
       <SafeAreaView>
@@ -33,19 +35,23 @@ export default function Booking(props) {
           </View>
           <View style={styles.containerQuestion}>
             <Text style={styles.question}>Where are you now?</Text>
-            <RNPickerSelect
-              onValueChange={(value) => (placeholder = value)}
-              // placeholder={("Select location")}
-              items={[
-                {label: 'BEG', value: 'BEG'},
-                {label: 'AMS', value: 'AMS'},
-                {label: 'MEX', value: 'MEX'},
-              ]}
-            />
+            <View style= {[isSelectedPicker ? styles.containerPickerBlue: styles.containerPicker]}>
+              <RNPickerSelect
+                useNativeAndroidPickerStyle={false}
+                onValueChange={(isSelectedPicker) => setIsSelectedPicker(isSelectedPicker)}
+                placeholder= {{label: "Select location", value: null }}
+                style={{inputAndroid: {color: colors.black} }}
+                items={[
+                  {label: 'Belgrade, Serbia', value: 'BEG'},
+                  {label: 'AMS, Netherlands', value: 'AMS'}, 
+                  {label: 'Berlin, Germany', value: 'BER'},
+                ]}
+              />
+            </View> 
           </View>
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={styles.button}
+              style={[isSelectedPicker ? styles.buttonBlue : styles.button]}
               onPress={() => {
                 navigation.navigate('Booking_fly');
               }}>
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containerIcon: {
-    height: '30%',
+    height: '25%',
     paddingHorizontal: 10,
   },
   containerQuestion: {
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   containerButton: {
-    height: '30%',
+    height: '35%',
     paddingHorizontal: 10,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -100,8 +106,27 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
   },
+  buttonBlue: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '95%',
+    height: 45,
+    backgroundColor: colors.blue,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+  },
   textWhite: {
     color: colors.white,
     fontSize: 15,
   },
+  containerPicker:{
+    borderBottomWidth:2,
+    borderBottomColor: colors.gray
+  },
+  containerPickerBlue:{
+    borderBottomWidth:2,
+    borderBottomColor: colors.blue
+  }
 });

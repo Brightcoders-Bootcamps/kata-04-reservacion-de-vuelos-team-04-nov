@@ -7,10 +7,10 @@ import SingUp from './src/screens/SingUp';
 import Home from './src/screens/MyFlights';
 import LogIn from './src/screens/LoginForm';
 import Booking from './src/screens/Booking';
-import Booking_fly from './src/screens/Booking2';
-import Date from './src/screens/Booking3';
-import Passenger from './src/screens/Booking4';
-import Result from './src/screens/Booking5';
+import Booking_fly from './src/screens/BookingDestination';
+import Date from './src/screens/BookingDate';
+import Passenger from './src/screens/BookingPassengers';
+import Result from './src/screens/BookingResult';
 
 const Stack = createStackNavigator();
 
