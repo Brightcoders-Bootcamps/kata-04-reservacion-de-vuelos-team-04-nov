@@ -43,7 +43,7 @@ const Result = ({navigation, route}) => {
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate}>
+            onPress={() => navigation.navigate('Home')}>
             <Text style={styles.next}>Finish</Text>
           </TouchableOpacity>
         </View>
