@@ -10,9 +10,7 @@ target 'RSVflights' do
 
 
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
 
   target 'RSVflightsTests' do
     inherit! :complete
