@@ -13,6 +13,7 @@ import firebase from '../utils/firebase';
 import 'firebase/auth';
 import colors from '../utils/colors';
 import {Icon} from 'react-native-elements';
+import constants from '../utils/constants';
 
 export default function MyFlights(props) {
   const {navigation} = props;
@@ -41,7 +42,7 @@ export default function MyFlights(props) {
               style={styles.signout}
               size={30}
             />
-            <Text style={styles.titulo}>My flights</Text>
+           <Text style={styles.titulo}>{constants.titleFlight}</Text>
             <View style={styles.container}>
               <View style={styles.containerReservation}>
                 <View style={styles.containerNow}>
