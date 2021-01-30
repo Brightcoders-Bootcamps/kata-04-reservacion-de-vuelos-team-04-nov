@@ -12,22 +12,23 @@ import CheckBox from '@react-native-community/checkbox';
 import colors from '../utils/colors';
 import firebase from '../utils/firebase';
 import { Icon } from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation} from '@react-navigation/native';
 
 export default function SingUp(props) {
-  const {changeForm} = props;
   const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
   const [isSelectedPolicy, setSelectedPolicy] = useState(false);
   const [isSubscribe, setSubscribe] = useState(false);
-
-  const register = () => {
+  const [passVisible, setPassvisible] = useState(false);
+  const setUndoVisiblePass =()=> {
+    setPassvisible(!passVisible);
+  };
+  function ValidationOK (){
     let errors = {}; 
     if (
       !formData.email ||
       !formData.password ||
-      !formData.name ||
       !isSelectedPolicy ||
       !isSubscribe
     ) {
@@ -40,21 +41,45 @@ export default function SingUp(props) {
       if (!formData.name) {
         errors.name = true;
       }
+      setFormError(errors);
+      return false;
     } else if (formData.password.length < 8) {
       errors.password = true;
+      setFormError(errors);
+      return false;
+    } else if (!validateEmail(formData.email)) {
+        errors.email = true;
+        setFormError(errors);
+        return false;
     } else {
+      return true;
+    }
+  }
+  const register = () => {
+    let validado = ValidationOK();
+    if (validado)
+    {
       firebase
         .auth()
         .createUserWithEmailAndPassword(formData.email, formData.password)
         .then(() => {
-          console.log('cuenta creada');
           navigation.navigate('Home');
         })
-        .catch(() => {
-          setFormError({email: true, password: true, name: true});
+        .catch((e) => {
+          if (e.code == 'auth/email-already-in-use')
+          setFormError({...formError, exist: true})
         });
     }
-    setFormError(errors);
+  };
+  const onChange = (e, type) => {
+    setFormData({...formData, [type]: e.nativeEvent.text});
+    if (type=='email')
+    {
+      setFormError({...formError, email: false});
+      setFormError({...formError, exist: false});
+    }
+    else if (type=='password')
+      setFormError({...formError, password: false});
   };
   return (
     <View style={styles.containerPrincipal}>
@@ -63,25 +88,28 @@ export default function SingUp(props) {
         <Text style={styles.label}>First Name</Text>
         <TextInput
           style={styles.input}
-          onChange={(e) => setFormData({...formData, name: e.nativeEvent.text})}
+          onChange={(e) => onChange(e, 'name')}
         />
-        <Text style={styles.label}>Email *</Text>
+        <View  style={styles.viewEtiquetas} ><Text style={styles.label}>Email *</Text>{ (formError.exist) && <Text style={styles.labelError} > Email in use. Use a different email</Text>}</View> 
         <TextInput
           style={styles.input}
-          onChange={(e) =>
-            setFormData({...formData, email: e.nativeEvent.text})
-          }
+          onChange={(e) => onChange(e, 'email')}
         />
-        <Text style={styles.label}>Password *</Text>
+        <View style={styles.viewEtiquetas} ><Text style={styles.label}>Password *</Text>{ (formError.email || formError.password) && <Text style={styles.labelError} > Incorrect email and/or password</Text>}</View>        
         <View style={styles.containerInputIcon}>
-                <TextInput 
-                style={styles.inputIcon} 
-                secureTextEntry={true}
-                onChange={(e) =>
-                  setFormData({...formData, password: e.nativeEvent.text})
-                }
+           {passVisible ? (
+              <TextInput 
+              style={styles.inputIcon} 
+              onChange={(e) => onChange(e, 'password')}
+              />
+           ) : (
+            <TextInput 
+            style={styles.inputIcon} 
+            secureTextEntry={true}
+            onChange={(e) => onChange(e, 'password')}
             />
-                <Icon name='eye' type='feather' color= {colors.gray} size={17}/>
+           ) }           
+                <TouchableOpacity onPress={setUndoVisiblePass}><Icon name='eye' type='feather' color= {colors.gray} size={17} /></TouchableOpacity>                
             </View>
         <Text style={styles.small}>
           Use 8 or more characters with a mix of letters, numbers and symbols.
@@ -113,21 +141,45 @@ export default function SingUp(props) {
       </View>
       <View style={styles.buttons}>
         <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={register}>
-            <Text style={styles.textWhite}>Sign Up</Text>
-          </TouchableOpacity>
+          { ((!formError.email || !formError.password) && isSelectedPolicy && isSubscribe) ?
+            (
+              <TouchableOpacity style={styles.buttonEnabled} onPress={register}>
+              <Text style={styles.textWhite}>Sign Up</Text>
+            </TouchableOpacity>
+            ) : (
+              <View style={styles.buttonDisabled} >
+              <Text style={styles.textWhite}>Sign Up</Text>
+            </View>
+            )
+          }
           <Text style={styles.textCheckbox}>or</Text>
-          <TouchableOpacity style={styles.button2}>
-            <View style={styles.containerImage}>
-              <Image
-                source={require('../assets/images/google.png')}
-                style={styles.image}
-              />
+          { (isSelectedPolicy && isSubscribe) ?
+            (
+              <TouchableOpacity style={styles.button2Enabled}>
+              <View style={styles.containerImage}>
+                <Image
+                  source={require('../assets/images/google.png')}
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.containerTextWhite}>
+                <Text style={styles.textWhite}>Sign Up with Google</Text>
+              </View>
+            </TouchableOpacity>
+            ) : (
+              <View style={styles.button2Disabled}>
+              <View style={styles.containerImage}>
+                <Image
+                  source={require('../assets/images/google.png')}
+                  style={styles.image}
+                />
+              </View>
+              <View style={styles.containerTextWhite}>
+                <Text style={styles.textWhite}>Sign Up with Google</Text>
+              </View>
             </View>
-            <View style={styles.containerTextWhite}>
-              <Text style={styles.textWhite}>Sign Up with Google</Text>
-            </View>
-          </TouchableOpacity>
+            )
+          }
           <View style={styles.containerLogin}>
             <Text style={styles.textCheckbox}>Already have an account?</Text>
             <TouchableOpacity onPress={()=>{navigation.navigate('LogIn')}}>
@@ -139,14 +191,28 @@ export default function SingUp(props) {
     </View>
   );
 }
+function validateEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
 function defaultValue() {
   return {
     email: '',
     password: '',
-    repeatPassword: '',
+    repeatPassword: ''
   };
 }
 const styles = StyleSheet.create({
+  viewEtiquetas: {
+    flexDirection:'row',
+    alignItems: 'center',
+  },
+  labelError: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 5,
+    marginTop: 15,
+  },
   containerPrincipal: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -236,7 +302,18 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
   },
-  button: {
+  buttonEnabled: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 45,
+    backgroundColor: colors.blue,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+  },
+  buttonDisabled: {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
@@ -247,7 +324,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
   },
-  button2: {
+  button2Enabled: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    height: 45,
+    backgroundColor: colors.blue,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: 'row',
+  },
+  button2Disabled: {
     alignItems: 'center',
     justifyContent: 'flex-start',
     width: '100%',
