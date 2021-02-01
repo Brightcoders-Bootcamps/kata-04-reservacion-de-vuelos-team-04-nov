@@ -13,7 +13,7 @@ import colors from '../utils/colors';
 import {Icon} from 'react-native-elements';
 
 const Calender = ({navigation, route}) => {
-  const [selectedDate, setSelectedDate] = React.useState('2021-01-31');
+  const [selectedDate, setSelectedDate] = React.useState('');
   const [markedDates, setMarkedDates] = React.useState({});
 
   const setNewDaySelected = (date) => {
@@ -80,7 +80,7 @@ const Calender = ({navigation, route}) => {
           </View>
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={[selectedDate === ('2021-01-31') ? styles.button : styles.button2]}
+              style={[selectedDate === '' ? styles.butto : styles.button2]}
               onPress={() =>
                 navigation.navigate('Passenger', {
                   date: Moment(selectedDate).format('MMMM D, YYYY'),
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 38,
     backgroundColor: 'white',
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 20,
   },
   container: {

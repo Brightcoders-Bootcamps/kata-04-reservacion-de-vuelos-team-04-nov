@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,25 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import colors from '../utils/colors';
+import 'firebase/firestore'
+import firebase from '../utils/firebase'
+import constants from '../utils/constants';
+
+firebase.firestore()
+const db = firebase.firestore(firebase);
+
 
 const Result = ({navigation, route}) => {
   const {date} = route.params;
   const {passenger} = route.params;
+
+  const addNewFight = async () => {
+    await db.collection('reservation').add({
+      date: date,
+      passenger: passenger
+    })
+    console.log('saved')
+  }
 
   return (
     <SafeAreaView>
@@ -37,13 +52,13 @@ const Result = ({navigation, route}) => {
         </View>
         <View style={styles.dates}>
           <Text style={styles.date}>{date}</Text>
-          <Text style={styles.date}>{passenger} passengers</Text>
+          <Text style={styles.date}>{passenger >= 2 ? `${passenger} passengers` : `${passenger} passenger`}</Text>
         </View>
-        <Text style={styles.received}>Your request was received.</Text>
+        <Text style={styles.received}>{constants.received}</Text>
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate}>
+            onPress={() => addNewFight() + navigation.navigate('Home')}>
             <Text style={styles.next}>Finish</Text>
           </TouchableOpacity>
         </View>
@@ -149,3 +164,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+

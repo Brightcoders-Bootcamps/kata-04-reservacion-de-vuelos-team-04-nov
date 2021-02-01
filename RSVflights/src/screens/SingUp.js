@@ -15,7 +15,6 @@ import { Icon } from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native'
 
 export default function SingUp(props) {
-  const {changeForm} = props;
   const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
