@@ -12,6 +12,7 @@ import Date from './src/screens/BookingDate';
 import Passenger from './src/screens/BookingPassengers';
 import Result from './src/screens/BookingResult';
 
+
 const Stack = createStackNavigator();
 
 const App = () => {

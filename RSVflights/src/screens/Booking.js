@@ -43,8 +43,8 @@ export default function Booking(props) {
                 style={{inputAndroid: {color: colors.black} }}
                 items={[
                   {label: 'Belgrade, Serbia', value: 'BEG Serbia'},
-                  {label: 'AMS, Netherlands', value: 'AMS'}, 
-                  {label: 'Berlin, Germany', value: 'BER'},
+                  {label: 'AMS, Netherlands', value: 'AMS Netherlands'}, 
+                  {label: 'Berlin, Germany', value: 'BER Germany'},
                 ]}
               />
             </View> 

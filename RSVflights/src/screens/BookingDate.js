@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {
   Text,
@@ -13,14 +13,23 @@ import colors from '../utils/colors';
 import {Icon} from 'react-native-elements';
 
 const Calender = ({navigation, route}) => {
-  const [selectedDate, setSelectedDate] = React.useState('2021-01-31');
-  const [markedDates, setMarkedDates] = React.useState({});
+  const [selectedDate, setSelectedDate] = useState('');
+  const [markedDates, setMarkedDates] = useState({});
+  const {locationNow} = route.params;
+  const locationString = JSON.stringify(locationNow)
+  const city = locationString.substring(1,4);
+  const country = locationString.substring (5, (locationString.length-1));
+
+  const {locationFly} = route.params;
+  const locationFlyString = JSON.stringify(locationFly)
+  const cityFly = locationFlyString.substring(1,4);
+  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
 
   const setNewDaySelected = (date) => {
     const markedDate = Object.assign({});
     markedDate[date] = {
       selected: true,
-      selectedColor: '#5b6df8',
+      selectedColor: colors.blue,
     };
     setSelectedDate(date);
     setMarkedDates(markedDate);
@@ -46,8 +55,8 @@ const Calender = ({navigation, route}) => {
             </TouchableOpacity>
             <View style={styles.containerReservation}>
               <View style={styles.containerNow}>
-                <Text style={styles.textLocation}>BEG</Text>
-                <Text style={styles.textCountry}>Serbia</Text>
+                <Text style={styles.textLocation}>{city}</Text>
+                <Text style={styles.textCountry}>{country}</Text>
               </View>
               <View style={styles.containerPlane}>
                 <Icon
@@ -58,8 +67,8 @@ const Calender = ({navigation, route}) => {
                 />
               </View>
               <View style={styles.containerFly}>
-                <Text style={styles.textLocation}>AMS</Text>
-                <Text style={styles.textCountry}>Netherlands</Text>
+                <Text style={styles.textLocation}>{cityFly}</Text>
+                <Text style={styles.textCountry}>{countryFly}</Text>
               </View>
             </View>
           </View>  
@@ -80,9 +89,10 @@ const Calender = ({navigation, route}) => {
           </View>
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={[selectedDate === ('2021-01-31') ? styles.button : styles.button2]}
+              style={[selectedDate === '' ? styles.button : styles.button2]}
               onPress={() =>
                 navigation.navigate('Passenger', {
+                  locationNow: locationNow, locationFly:locationFly,
                   date: Moment(selectedDate).format('MMMM D, YYYY'),
                 })
               }>
@@ -102,7 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 38,
     backgroundColor: 'white',
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 20,
   },
   container: {

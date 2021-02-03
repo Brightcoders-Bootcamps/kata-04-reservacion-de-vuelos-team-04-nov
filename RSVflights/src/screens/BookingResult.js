@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,45 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import colors from '../utils/colors';
+import 'firebase/firestore'
+import firebase from '../utils/firebase'
+import constants from '../utils/constants';
+
+firebase.firestore()
+const db = firebase.firestore(firebase);
+
 
 const Result = ({navigation, route}) => {
+  const {locationNow} = route.params;
+  const locationString = JSON.stringify(locationNow)
+  const city = locationString.substring(1,4);
+  const country = locationString.substring (5, (locationString.length-1));
+  
+  const {locationFly} = route.params;
+  const locationFlyString = JSON.stringify(locationFly)
+  const cityFly = locationFlyString.substring(1,4);
+  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
   const {date} = route.params;
   const {passenger} = route.params;
+
+
+  const addNewFight = async () => {
+    await db.collection('reservation').add({
+      locationNow : locationNow,
+      locationFly: locationFly,
+      date: date,
+      passenger: passenger
+    })
+    console.log('saved')
+  }
 
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.containerReservation}>
           <View style={styles.containerNow}>
-            <Text style={styles.textLocation}>BEG</Text>
-            <Text style={styles.textCountry}>Serbia</Text>
+            <Text style={styles.textLocation}>{city}</Text>
+            <Text style={styles.textCountry}>{country}</Text>
           </View>
           <View style={styles.containerPlane}>
             <Icon
@@ -31,19 +58,19 @@ const Result = ({navigation, route}) => {
             />
           </View>
           <View style={styles.containerFly}>
-            <Text style={styles.textLocation}>AMS</Text>
-            <Text style={styles.textCountry}>Netherlands</Text>
+            <Text style={styles.textLocation}>{cityFly}</Text>
+            <Text style={styles.textCountry}>{countryFly}</Text>
           </View>
         </View>
         <View style={styles.dates}>
           <Text style={styles.date}>{date}</Text>
-          <Text style={styles.date}>{passenger} passengers</Text>
+          <Text style={styles.date}>{passenger >= 2 ? `${passenger} passengers` : `${passenger} passenger`}</Text>
         </View>
-        <Text style={styles.received}>Your request was received.</Text>
+        <Text style={styles.received}>{constants.received}</Text>
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate}>
+            onPress={() => addNewFight() + navigation.navigate('Home')}>
             <Text style={styles.next}>Finish</Text>
           </TouchableOpacity>
         </View>
@@ -149,3 +176,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
