@@ -6,7 +6,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import Auth from '../components/Auth';
 import firebase from '../utils/firebase';
@@ -55,15 +56,17 @@ export default function MyFlights(props) {
       <StatusBar />
       <SafeAreaView style={styles.background}>
         {user ? (
-          <View>            
-            <Icon
-              name="log-out-outline"
-              type="ionicon"
-              onPress={() => firebase.auth().signOut()}
-              style={styles.signout}
-              size={30}
-            />
-            <Text style={styles.titulo}>{constants.titleFlight}</Text>
+          <View style={styles.container}> 
+            <View style={styles.header}>
+              <Text style={styles.titulo}>{constants.titleFlight}</Text>
+              <Icon
+                name="log-out-outline"
+                type="ionicon"
+                onPress={() => firebase.auth().signOut()}
+                style={styles.signout}
+                size={30}
+              />
+            </View>           
             <ScrollView>
             {
               list.map(flights => {
@@ -99,6 +102,11 @@ export default function MyFlights(props) {
               })
             }
             </ScrollView>
+          </View>
+        ) : (
+          <Auth />
+        )}
+      </SafeAreaView>
               <View style={styles.screen}>
                 <TouchableOpacity
                   style={styles.button}
@@ -108,11 +116,6 @@ export default function MyFlights(props) {
                   <Text style={styles.textbutton}>+</Text>
                 </TouchableOpacity>
               </View>
-          </View>
-        ) : (
-          <Auth />
-        )}
-      </SafeAreaView>
     </>
   );
 }
@@ -122,14 +125,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    width: '115%'
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    paddingHorizontal: '2%',
+    paddingVertical: '10%',
+  },
+  container: {
+    width :'100%'
   },
   textbutton: {
     fontSize: 70,
     color: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 85,
+    // paddingBottom: 25,
     fontWeight: 'bold',
   },
   screen: {
@@ -137,16 +146,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    width: 10,
-    height: 100,
+    width: 80,
+    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5,
-    borderRadius: 60,
-    backgroundColor: '#5b6df8',
+    borderRadius: 40,
+    backgroundColor: colors.blue,
     color: 'white',
-    marginLeft: '38%',
     position: 'absolute',
+    top: -120,
   },
   titulo: {
     fontWeight: 'bold',
@@ -154,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 10,
     marginLeft: 20,
-    color: '#5b6df8',
+    color: colors.blue,
   },
   textLocation: {
     fontSize: 25,
@@ -208,5 +216,11 @@ const styles = StyleSheet.create({
   },
   signout: {
     marginLeft: '80%',
+  },
+  header: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 });

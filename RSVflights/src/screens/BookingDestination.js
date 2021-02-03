@@ -3,6 +3,7 @@ import {SafeAreaView} from 'react-native';
 import {
   StyleSheet,
   View,
+  TouchableHighlight,
   TouchableOpacity,
   Dimensions,
   Text,
@@ -14,7 +15,11 @@ import RNPickerSelect from 'react-native-picker-select';
 
 export default function Booking_fly({navigation, route}) {
   const {locationNow} = route.params;
-  const [isSelectedPicker,setIsSelectedPicker] = useState("");
+  const locationString = JSON.stringify(locationNow)
+  const city = locationString.substring(1,4);
+  const country = locationString.substring (5, (locationString.length-1));
+  
+  const [isSelectedPickerfly,setIsSelectedPickerfly] = useState("");
 
   return (
     <>
@@ -35,8 +40,9 @@ export default function Booking_fly({navigation, route}) {
             </TouchableOpacity>
             <View style={styles.containerReservation}>
               <View style={styles.containerNow}>
-                <Text style={styles.textLocation}>{locationNow}</Text>
-                <Text style={styles.textCountry}>Serbia</Text>
+                <Text style={styles.textLocation}>{city}</Text>
+                <Text style={styles.textCountry}>{country}</Text>
+               
               </View>
               <View style={styles.containerPlane}>
                 <Icon
@@ -51,25 +57,25 @@ export default function Booking_fly({navigation, route}) {
           </View>
           <View style={styles.containerQuestion}>
             <Text style={styles.question}>Where will you be flying to?</Text>
-            <View style= {[isSelectedPicker ? styles.containerPickerBlue: styles.containerPicker]}>
+            <View style= {[isSelectedPickerfly ? styles.containerPickerBlue: styles.containerPicker]}>
               <RNPickerSelect
                 useNativeAndroidPickerStyle={false}
-                onValueChange={(isSelectedPicker) => setIsSelectedPicker(isSelectedPicker)}
+                onValueChange={(isSelectedPickerfly) => setIsSelectedPickerfly(isSelectedPickerfly)}
                 placeholder={{label: "Select location", value: null }}
                 style={{inputAndroid: {color: colors.black} }}
                 items={[
-                  {label: 'Belgrade, Serbia', value: 'BEG'},
-                  {label: 'AMS, Netherlands', value: 'AMS'}, 
-                  {label: 'Berlin, Germany', value: 'BER'},
+                  {label: 'Belgrade, Serbia', value: 'BEG Serbia'},
+                  {label: 'AMS, Netherlands', value: 'AMS Netherlands'}, 
+                  {label: 'Berlin, Germany', value: 'BER Germany'},
                 ]}
               />
             </View> 
           </View>
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={[isSelectedPicker ? styles.buttonBlue : styles.button]}
+              style={[isSelectedPickerfly ? styles.buttonBlue : styles.button]}
               onPress={() => {
-                navigation.navigate('Date');
+                navigation.navigate('Date', {locationFly: isSelectedPickerfly, locationNow : locationNow });
               }}>
               <Text style={styles.textWhite}>Next</Text>
             </TouchableOpacity>

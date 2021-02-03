@@ -18,11 +18,23 @@ const db = firebase.firestore(firebase);
 
 
 const Result = ({navigation, route}) => {
+  const {locationNow} = route.params;
+  const locationString = JSON.stringify(locationNow)
+  const city = locationString.substring(1,4);
+  const country = locationString.substring (5, (locationString.length-1));
+  
+  const {locationFly} = route.params;
+  const locationFlyString = JSON.stringify(locationFly)
+  const cityFly = locationFlyString.substring(1,4);
+  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
   const {date} = route.params;
   const {passenger} = route.params;
 
+
   const addNewFight = async () => {
     await db.collection('reservation').add({
+      locationNow : locationNow,
+      locationFly: locationFly,
       date: date,
       passenger: passenger
     })
@@ -34,8 +46,8 @@ const Result = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.containerReservation}>
           <View style={styles.containerNow}>
-            <Text style={styles.textLocation}>BEG</Text>
-            <Text style={styles.textCountry}>Serbia</Text>
+            <Text style={styles.textLocation}>{city}</Text>
+            <Text style={styles.textCountry}>{country}</Text>
           </View>
           <View style={styles.containerPlane}>
             <Icon
@@ -46,8 +58,8 @@ const Result = ({navigation, route}) => {
             />
           </View>
           <View style={styles.containerFly}>
-            <Text style={styles.textLocation}>AMS</Text>
-            <Text style={styles.textCountry}>Netherlands</Text>
+            <Text style={styles.textLocation}>{cityFly}</Text>
+            <Text style={styles.textCountry}>{countryFly}</Text>
           </View>
         </View>
         <View style={styles.dates}>

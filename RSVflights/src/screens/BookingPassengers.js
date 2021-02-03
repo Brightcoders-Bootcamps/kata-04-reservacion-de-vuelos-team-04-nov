@@ -12,6 +12,15 @@ import colors from '../utils/colors';
 
 const Passenger = ({navigation, route}) => {
   const {date} = route.params;
+  const {locationNow} = route.params;
+  const locationString = JSON.stringify(locationNow)
+  const city = locationString.substring(1,4);
+  const country = locationString.substring (5, (locationString.length-1));
+  
+  const {locationFly} = route.params;
+  const locationFlyString = JSON.stringify(locationFly)
+  const cityFly = locationFlyString.substring(1,4);
+  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
   const [count, setCount] = useState(0);
 
   return (
@@ -32,8 +41,8 @@ const Passenger = ({navigation, route}) => {
           </TouchableOpacity>
           <View style={styles.containerReservation}>
             <View style={styles.containerNow}>
-              <Text style={styles.textLocation}>BEG</Text>
-              <Text style={styles.textCountry}>Serbia</Text>
+              <Text style={styles.textLocation}>{city}</Text>
+              <Text style={styles.textCountry}>{country}</Text>
             </View>
             <View style={styles.containerPlane}>
               <Icon
@@ -44,8 +53,8 @@ const Passenger = ({navigation, route}) => {
               />
             </View>
             <View style={styles.containerFly}>
-              <Text style={styles.textLocation}>AMS</Text>
-              <Text style={styles.textCountry}>Netherlands</Text>
+              <Text style={styles.textLocation}>{cityFly}</Text>
+              <Text style={styles.textCountry}>{countryFly}</Text>
             </View>
           </View>
           <Text style={styles.date}>{date}</Text> 
@@ -76,7 +85,7 @@ const Passenger = ({navigation, route}) => {
           <TouchableOpacity
             style={[count ? styles.buttonBlue : styles.button]}
             onPress={() =>
-              navigation.navigate('Result', {passenger: count, date: date})
+              navigation.navigate('Result', {locationNow:locationNow, locationFly:locationFly, passenger: count, date: date})
             }>
             <Text style={styles.next}>Next</Text>
           </TouchableOpacity>
