@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import firebase from '../utils/firebase';
+import 'firebase/auth';
 import colors from '../utils/colors';
 import {useNavigation} from '@react-navigation/native'
 
@@ -16,7 +17,7 @@ export default function LoginForm(props) {
   const navigation = useNavigation();
   const [formData, setFormData] = useState(defaultValue());
   const [formError, setFormError] = useState({});
-
+  
   const login = () => {
     let errors = {};
     if (!formData.email || !formData.password) {
@@ -32,8 +33,7 @@ export default function LoginForm(props) {
       firebase
         .auth()
         .signInWithEmailAndPassword(formData.email, formData.password)
-        .then(() => {
-          console.log('OK');
+        .then(() => {          
           navigation.navigate('Home');
         })
         .catch(() => {

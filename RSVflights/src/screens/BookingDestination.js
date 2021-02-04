@@ -14,7 +14,7 @@ import RNPickerSelect from 'react-native-picker-select';
 
 
 export default function Booking_fly({navigation, route}) {
-  const {locationNow} = route.params;
+  const {locationNow, pEmail} = route.params;
   const locationString = JSON.stringify(locationNow)
   const city = locationString.substring(1,4);
   const country = locationString.substring (5, (locationString.length-1));
@@ -28,7 +28,7 @@ export default function Booking_fly({navigation, route}) {
           <View style={styles.containerIcon}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Booking');
+                navigation.navigate('Booking', {pEmail: pEmail});
               }}>
               <Icon
                 name="chevron-left"
@@ -64,9 +64,9 @@ export default function Booking_fly({navigation, route}) {
                 placeholder={{label: "Select location", value: null }}
                 style={{inputAndroid: {color: colors.black} }}
                 items={[
-                  {label: 'Belgrade, Serbia', value: 'BEG Serbia'},
-                  {label: 'AMS, Netherlands', value: 'AMS Netherlands'}, 
-                  {label: 'Berlin, Germany', value: 'BER Germany'},
+                  {label: 'CDM, Ciudad de México', value: 'CDM Ciudad_Nexico'},
+                  {label: 'GDL, Guadalajara', value: 'GDL Guadalajara'}, 
+                  {label: 'QRO, Cancun', value: 'QRO Cancun'},
                 ]}
               />
             </View> 
@@ -75,7 +75,7 @@ export default function Booking_fly({navigation, route}) {
             <TouchableOpacity
               style={[isSelectedPickerfly ? styles.buttonBlue : styles.button]}
               onPress={() => {
-                navigation.navigate('Date', {locationFly: isSelectedPickerfly, locationNow : locationNow });
+                navigation.navigate('Date', {locationFly: isSelectedPickerfly, locationNow : locationNow, pEmail: pEmail });
               }}>
               <Text style={styles.textWhite}>Next</Text>
             </TouchableOpacity>

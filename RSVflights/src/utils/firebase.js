@@ -1,16 +1,16 @@
 import firebase from 'firebase/app';
 import Config from 'react-native-config';
 const API_KEY = Config.API_KEY_FIREBASE;
+//const API_KEY = 'AIzaSyAMAvkvWB0VJ2Se2joiKGYc5NQRWCpKLo8';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: API_KEY,
-  authDomain: "rsvflights-258f4.firebaseapp.com",
-  projectId: "rsvflights-258f4",
-  storageBucket: "rsvflights-258f4.appspot.com",
-  messagingSenderId: "403483415659",
-  appId: "1:403483415659:web:9f363806fbb1ab66460d2e",
-  measurementId: "G-4R60HVC439"
+  authDomain: "rsvf-68ea7.firebaseapp.com",
+  projectId: "rsvf-68ea7",
+  storageBucket: "rsvf-68ea7.appspot.com",
+  messagingSenderId: "576128509340",
+  appId: "1:576128509340:web:2ce0aaeda08d1d5bbbd459"
 };
 
 export default firebase.initializeApp(firebaseConfig);

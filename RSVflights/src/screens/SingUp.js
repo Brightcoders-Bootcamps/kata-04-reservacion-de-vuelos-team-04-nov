@@ -63,7 +63,8 @@ export default function SingUp(props) {
         .auth()
         .createUserWithEmailAndPassword(formData.email, formData.password)
         .then(() => {
-          navigation.navigate('Home');
+          const mail = formData.email;
+          navigation.navigate('Home',{pEmail: mail});
         })
         .catch((e) => {
           if (e.code == 'auth/email-already-in-use')

@@ -11,16 +11,7 @@ import {Icon} from 'react-native-elements';
 import colors from '../utils/colors';
 
 const Passenger = ({navigation, route}) => {
-  const {date} = route.params;
-  const {locationNow} = route.params;
-  const locationString = JSON.stringify(locationNow)
-  const city = locationString.substring(1,4);
-  const country = locationString.substring (5, (locationString.length-1));
-  
-  const {locationFly} = route.params;
-  const locationFlyString = JSON.stringify(locationFly)
-  const cityFly = locationFlyString.substring(1,4);
-  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
+  const {locationNow, locationFly, date, city, country, cityFly, countryFly, pEmail} = route.params;  
   const [count, setCount] = useState(0);
 
   return (
@@ -29,7 +20,7 @@ const Passenger = ({navigation, route}) => {
         <View style={styles.containerIcons}>
           <TouchableOpacity
             onPress={() => {
-            navigation.navigate('Date');
+            navigation.navigate('Date', {locationNow, locationFly, pEmail});
             }}>
             <Icon
               name="chevron-left"
@@ -85,7 +76,7 @@ const Passenger = ({navigation, route}) => {
           <TouchableOpacity
             style={[count ? styles.buttonBlue : styles.button]}
             onPress={() =>
-              navigation.navigate('Result', {locationNow:locationNow, locationFly:locationFly, passenger: count, date: date})
+              navigation.navigate('Result', {locationNow: locationNow, locationFly: locationFly, date: date, city: city, country: country, cityFly: cityFly, countryFly: countryFly, pEmail: pEmail, passenger: count})
             }>
             <Text style={styles.next}>Next</Text>
           </TouchableOpacity>

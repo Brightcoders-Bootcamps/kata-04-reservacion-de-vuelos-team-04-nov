@@ -7,7 +7,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Dimensions
+  Dimensions,
+  LogBox,
 } from 'react-native';
 import Auth from '../components/Auth';
 import firebase from '../utils/firebase';
@@ -20,36 +21,37 @@ import 'firebase/firestore'
 firebase.firestore()
 const db = firebase.firestore(firebase);
 
-export default function MyFlights(props) {
-  const {navigation} = props;
+export default function MyFlights({navigation}) {  
   const [user, setUser] = useState(undefined);
-  const [list, setList] =  useState([])
-
-  useEffect(()=> {
-    db.collection('reservation').onSnapshot(querySnapshot =>{
-      const flights = [];
-
-      querySnapshot.docs.forEach(doc =>{
-        const {date, passenger} = doc.data();
-        flights.push({
-          id: doc.id, 
-          date,
-          passenger,
-        })
-      })
-      setList(flights)
-      console.ignoredYellowBox
-    })
-  }, [])
-
-  useEffect(() => {
+  const [list, setList] =  useState([]);
+  useEffect(()=> {   
+    LogBox.ignoreLogs(['Setting a timer']);
     firebase.auth().onAuthStateChanged((response) => {
-      setUser(response);
-    });
-  }, []);
-
-  if (user === undefined) {
-    return null;
+      if (response)
+      {
+        const mail = response.email;        
+        setUser(response);   
+        if(mail)
+        {
+          const flights = [];
+          db.collection(response.uid)
+          .orderBy('DateFly','asc')
+          .get()
+          .then((response) => {
+            response.forEach((doc) => {
+              const data = doc.data();
+              data.id = doc.id;
+              flights.push(data);
+            });
+            setList(flights);                 
+          });
+        }      
+      }      
+    });  
+  }, [list]);
+  const salir =()=> {
+    firebase.auth().signOut();
+    setUser(undefined);
   }
   return (
     <>
@@ -62,60 +64,60 @@ export default function MyFlights(props) {
               <Icon
                 name="log-out-outline"
                 type="ionicon"
-                onPress={() => firebase.auth().signOut()}
+                onPress={salir}
                 style={styles.signout}
                 size={30}
-              />
+              />              
             </View>           
             <ScrollView>
             {
               list.map(flights => {
                 return(
-                  <ListItem 
-                  key = {flights.id} bottomDivider>
-                  <ListItem.Content>
-                  <View style={styles.containerReservation}>
-                  <View style={styles.containerNow}>
-                  <Text style={styles.textLocation}>BEG</Text>
-                  <Text style={styles.textCountry}>Serbia</Text>
-                </View>
-                <View style={styles.containerPlane}>
-                  <Icon
-                    name="airplane"
-                    type="ionicon"
-                    color={colors.blue}
-                    size={30}
-                  />
-                </View>             
-                <View style={styles.containerFly}>
-                  <Text style={styles.textLocation}>AMS</Text>
-                  <Text style={styles.textCountry}>Netherlands</Text>
-                </View>
-                </View>
-                <View style={styles.dates}>
-                  <ListItem.Title style={styles.date}>{flights.date}</ListItem.Title>
-                  <ListItem.Title style={styles.date}>{flights.passenger >= 2 ? `${flights.passenger} passengers` : `${flights.passenger} passenger`}</ListItem.Title>
-                </View>
-                    </ListItem.Content>
+                <ListItem key = {flights.id} bottomDivider>
+                      <ListItem.Content>
+                        <View style={styles.containerReservation}>
+                            <View style={styles.containerNow}>
+                            <Text style={styles.textLocation}>{flights.CityOrigen}</Text>
+                            <Text style={styles.textCountry}>{flights.CountryOrigen}</Text>
+                          </View>
+                          <View style={styles.containerPlane}>
+                            <Icon
+                              name="airplane"
+                              type="ionicon"
+                              color={colors.blue}
+                              size={30}
+                            />
+                          </View>             
+                          <View style={styles.containerFly}>
+                            <Text style={styles.textLocation}>{flights.CityDestino}</Text>
+                            <Text style={styles.textCountry}>{flights.CountryDestino}</Text>
+                          </View>
+                        </View>
+                        <View style={styles.dates}>
+                          <ListItem.Title style={styles.date}>{flights.DateFly}</ListItem.Title>
+                          <ListItem.Title style={styles.date}>{flights.Passenger >= 2 ? `${flights.Passenger} passengers` : `${flights.Passenger} passenger`}</ListItem.Title>
+                        </View>
+                          </ListItem.Content>
                   </ListItem>
                 )
               })
             }
             </ScrollView>
+            <View style={styles.screen}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {     
+                  console.log(user.uid);            
+                  navigation.navigate('Booking', {pEmail: user.uid});
+                }}>
+                <Text style={styles.textbutton}>+</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : (
           <Auth />
         )}
-      </SafeAreaView>
-              <View style={styles.screen}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => {
-                    navigation.navigate('Booking');
-                  }}>
-                  <Text style={styles.textbutton}>+</Text>
-                </TouchableOpacity>
-              </View>
+      </SafeAreaView>              
     </>
   );
 }
@@ -132,18 +134,13 @@ const styles = StyleSheet.create({
   },
   container: {
     width :'100%'
-  },
-  textbutton: {
-    fontSize: 70,
-    color: colors.white,
-    justifyContent: 'center',
+  },  
+  screen: {    
+    position: 'absolute',   
     alignItems: 'center',
-    // paddingBottom: 25,
-    fontWeight: 'bold',
-  },
-  screen: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
+    height: 650,
+    justifyContent: 'flex-end',
   },
   button: {
     width: 80,
@@ -152,9 +149,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 40,
     backgroundColor: colors.blue,
-    color: 'white',
-    position: 'absolute',
-    top: -120,
+    color: 'white',        
+  },
+  textbutton: {
+    fontSize: 70,
+    color: colors.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: 'bold',
   },
   titulo: {
     fontWeight: 'bold',
