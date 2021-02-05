@@ -15,12 +15,12 @@ import {Icon} from 'react-native-elements';
 const Calender = ({navigation, route}) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
-  const {locationNow} = route.params;
+  const {locationNow, locationFly, pEmail} = route.params;
+
   const locationString = JSON.stringify(locationNow)
   const city = locationString.substring(1,4);
   const country = locationString.substring (5, (locationString.length-1));
 
-  const {locationFly} = route.params;
   const locationFlyString = JSON.stringify(locationFly)
   const cityFly = locationFlyString.substring(1,4);
   const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
@@ -43,7 +43,7 @@ const Calender = ({navigation, route}) => {
           <View style={styles.containerIcons}>
             <TouchableOpacity
               onPress={() => {
-              navigation.navigate('Booking_fly');
+              navigation.navigate('Booking_fly',{locationNow, pEmail});
             }}>
               <Icon
                 name="chevron-left"
@@ -92,8 +92,14 @@ const Calender = ({navigation, route}) => {
               style={[selectedDate === '' ? styles.button : styles.button2]}
               onPress={() =>
                 navigation.navigate('Passenger', {
-                  locationNow: locationNow, locationFly:locationFly,
+                  locationNow: locationNow, 
+                  locationFly:locationFly,
                   date: Moment(selectedDate).format('MMMM D, YYYY'),
+                  city: city,
+                  country: country,
+                  cityFly: cityFly,
+                  countryFly: countryFly,
+                  pEmail: pEmail,
                 })
               }>
               <Text style={styles.next}>Next</Text>

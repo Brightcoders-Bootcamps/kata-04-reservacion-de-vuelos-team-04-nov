@@ -11,8 +11,8 @@ import colors from '../utils/colors';
 import {Icon} from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function Booking(props) {
-  const {navigation} = props;
+export default function Booking({ route, navigation }) {
+  const {pEmail} = route.params;  
   const [isSelectedPicker,setIsSelectedPicker] = useState("");
 
   return (
@@ -42,9 +42,9 @@ export default function Booking(props) {
                 placeholder= {{label: "Select location", value: null }}
                 style={{inputAndroid: {color: colors.black} }}
                 items={[
-                  {label: 'Belgrade, Serbia', value: 'BEG Serbia'},
-                  {label: 'AMS, Netherlands', value: 'AMS Netherlands'}, 
-                  {label: 'Berlin, Germany', value: 'BER Germany'},
+                  {label: 'CDM, Ciudad de México', value: 'CDM Ciudad_Nexico'},
+                  {label: 'GDL, Guadalajara', value: 'GDL Guadalajara'}, 
+                  {label: 'QRO, Cancun', value: 'QRO Cancun'},
                 ]}
               />
             </View> 
@@ -53,7 +53,7 @@ export default function Booking(props) {
             <TouchableOpacity
               style={[isSelectedPicker ? styles.buttonBlue : styles.button]}
               onPress={() => {
-                navigation.navigate('Booking_fly', {locationNow: isSelectedPicker});
+                navigation.navigate('Booking_fly', {locationNow: isSelectedPicker, pEmail: pEmail});
               }}>
               <Text style={styles.textWhite}>Next</Text>
             </TouchableOpacity>

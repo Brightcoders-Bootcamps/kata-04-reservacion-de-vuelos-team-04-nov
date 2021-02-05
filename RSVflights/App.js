@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Text, View } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
@@ -11,7 +10,6 @@ import Booking_fly from './src/screens/BookingDestination';
 import Date from './src/screens/BookingDate';
 import Passenger from './src/screens/BookingPassengers';
 import Result from './src/screens/BookingResult';
-
 
 const Stack = createStackNavigator();
 

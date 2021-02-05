@@ -9,36 +9,33 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import colors from '../utils/colors';
-import 'firebase/firestore'
-import firebase from '../utils/firebase'
 import constants from '../utils/constants';
+import firebase from '../utils/firebase';
+import 'firebase/firestore';
 
-firebase.firestore()
+firebase.firestore().settings({experimentalForceLongPolling: true});
 const db = firebase.firestore(firebase);
 
-
 const Result = ({navigation, route}) => {
-  const {locationNow} = route.params;
-  const locationString = JSON.stringify(locationNow)
-  const city = locationString.substring(1,4);
-  const country = locationString.substring (5, (locationString.length-1));
-  
-  const {locationFly} = route.params;
-  const locationFlyString = JSON.stringify(locationFly)
-  const cityFly = locationFlyString.substring(1,4);
-  const countryFly = locationFlyString.substring (5, (locationFlyString.length-1));
-  const {date} = route.params;
-  const {passenger} = route.params;
+  const {date, city, country, cityFly, countryFly, pEmail, passenger} = route.params;
 
-
-  const addNewFight = async () => {
-    await db.collection('reservation').add({
-      locationNow : locationNow,
-      locationFly: locationFly,
-      date: date,
-      passenger: passenger
-    })
-    console.log('saved')
+  const onSubmit = () => {
+      db.collection(pEmail)
+        .add({
+          CityOrigen : city,
+          CountryOrigen: country,      
+          CityDestino: cityFly,
+          CountryDestino: countryFly,
+          DateFly: date,
+          Passenger: passenger
+        })
+        .then(() => {
+          console.log('Saved');
+          navigation.navigate('Home');
+        })
+        .catch(() => {
+          console.log('ocurrio un error al guardar en la base de datos')
+        });        
   }
 
   return (
@@ -67,10 +64,11 @@ const Result = ({navigation, route}) => {
           <Text style={styles.date}>{passenger >= 2 ? `${passenger} passengers` : `${passenger} passenger`}</Text>
         </View>
         <Text style={styles.received}>{constants.received}</Text>
+        <Text>Datos:{pEmail}, {date}, {city}, {country}, {cityFly}, {countryFly}, {pEmail}, {passenger}</Text>
         <View style={styles.containerButton}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => addNewFight() + navigation.navigate('Home')}>
+            onPress={onSubmit}>
             <Text style={styles.next}>Finish</Text>
           </TouchableOpacity>
         </View>
