@@ -1,1 +1,11 @@
-Escribe aquí las instrucciones necesarias para ejecutar tu proyecto
+- Ingresar a la apliacion de My fligh, donde se mostrará Login.
+- Si en caso de que no se cuente con una cuenta, se puede crear una cuenta: ingresando un nombre, un correo electronico y una contaseña, o elegir ingresar por su cuenta de Google.
+- Una vez registrado, se enlazará a la página principal de la aplicación, la cual muestra la lista de los vuelos que el usuario.
+- Para agregar un nuevo vuelo, se hace en el bton de mas, la cual muestra la información correspondiente de su vuelo:
+    - Elegir el país y la ciudad de origen.
+    - Elegir el país y la ciudad destino.
+    - Fecha en la que será el vuelo.
+    - El número de pasajeros
+- Una vez terminado, dar click en el boton de finalizar.
+- Posteriormente, este se mostrará en la lista de sus vuelos.
+- Para cerrar sesión en la aplicación, solamente se debe dar clic en el icono superior derecho
